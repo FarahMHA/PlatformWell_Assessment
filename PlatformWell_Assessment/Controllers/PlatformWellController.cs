@@ -17,10 +17,17 @@ namespace PlatformWell_Assessment.Controllers
         }
 
 
-        [HttpGet("GetDataPlatformWell")]
-        public async Task<string> GetDataPlatformWell()
+        [HttpGet("GetDataPlatformWellActual")]
+        public async Task<string> GetDataPlatformWellActual()
         {
-            var result = await _platformWellManagement.GetDataPlatformWell();
+            var result = await _platformWellManagement.GetDataPlatformWellActual();
+            return result;
+        }
+
+        [HttpGet("GetDataPlatformWellDummy")]
+        public async Task<string> GetDataPlatformWellDummy()
+        {
+            var result = await _platformWellManagement.GetDataPlatformWellDummy();
             return result;
         }
     }

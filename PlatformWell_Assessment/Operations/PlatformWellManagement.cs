@@ -41,8 +41,7 @@ namespace PlatformWell_Assessment.Operations
                 {
                     Token = JsonConvert.DeserializeObject<string>(await response.Content.ReadAsStringAsync());
                 }
-                Console.WriteLine(Token);
-
+                
                 return Token;
 
 
@@ -53,13 +52,57 @@ namespace PlatformWell_Assessment.Operations
             }
         }
 
-        public async Task<string> GetDataPlatformWell()
+        public async Task<string> GetDataPlatformWellActual()
         {
             try
             {
 
                 // Define the API endpoint URL
                 string apiUrlActual = "http://test-demo.aemenersol.com/api/PlatformWell/GetPlatformWellActual";
+                string apiUrlDummy = "http://test-demo.aemenersol.com/api/PlatformWell/GetPlatformWellDummy";
+
+                // Add bearer token to the request headers
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+                var response = await _httpClient.GetAsync(apiUrlActual);
+
+
+
+                if (response.IsSuccessStatusCode)
+                {
+                    List<PlatformDto> platformModel = new List<PlatformDto>();
+                    platformModel = JsonConvert.DeserializeObject<List<PlatformDto>>(await response.Content.ReadAsStringAsync());
+
+                    //Data Access
+                    GetDataAccess(platformModel);
+                }
+                else
+                {
+                    await GetTokenJWT();
+                    await GetDataPlatformWellActual();
+                }
+
+                return "Success get data";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            finally
+            {
+                // Dispose of the HttpClient instance when done
+                _httpClient.Dispose();
+            }
+
+
+        }
+
+        public async Task<string> GetDataPlatformWellDummy()
+        {
+            try
+            {
+
+                // Define the API endpoint URL
                 string apiUrlDummy = "http://test-demo.aemenersol.com/api/PlatformWell/GetPlatformWellDummy";
 
                 // Add bearer token to the request headers
@@ -79,7 +122,7 @@ namespace PlatformWell_Assessment.Operations
                 else
                 {
                     await GetTokenJWT();
-                    await GetDataPlatformWell();
+                    await GetDataPlatformWellDummy();
                 }
 
                 return "Success get data";
