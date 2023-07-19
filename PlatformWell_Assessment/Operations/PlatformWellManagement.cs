@@ -59,12 +59,10 @@ namespace PlatformWell_Assessment.Operations
 
                 // Define the API endpoint URL
                 string apiUrlActual = "http://test-demo.aemenersol.com/api/PlatformWell/GetPlatformWellActual";
-                string apiUrlDummy = "http://test-demo.aemenersol.com/api/PlatformWell/GetPlatformWellDummy";
 
                 // Add bearer token to the request headers
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
                 var response = await _httpClient.GetAsync(apiUrlActual);
-
 
 
                 if (response.IsSuccessStatusCode)
